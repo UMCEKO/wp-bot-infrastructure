@@ -8,7 +8,6 @@ class CustomClient extends Client{
 
 const client = new CustomClient({
   puppeteer: {
-    executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
   },
   authStrategy: new LocalAuth(),
 });
@@ -18,7 +17,7 @@ client.initialize().then()
 //event handler
 const eventsPath = path.join(__dirname, "events")
 let eventFiles = (getAllFileAbsDirs(eventsPath))
-eventFiles = eventFiles.filter(file => file.includes(".ts"))
+eventFiles = eventFiles.filter(file => file.endsWith(".ts") || file.endsWith(".js"))
 for(let file of eventFiles){
   let {event = null, execute = null} = require(file)
   if (!event || !execute){
@@ -32,7 +31,7 @@ for(let file of eventFiles){
 //command handler
 const commandsPath = path.join(__dirname, "commands")
 let commandFiles = getAllFileAbsDirs(commandsPath)
-commandFiles = commandFiles.filter(file => file.includes(".ts"))
+commandFiles = commandFiles.filter(file => file.endsWith(".ts") || file.endsWith(".js"))
 
 for(let file of commandFiles){
   let data: {name: string, execute:(message)=>{}} = require(file)
